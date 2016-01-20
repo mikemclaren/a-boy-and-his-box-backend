@@ -1,0 +1,25 @@
+{
+  "name": "a-boy-and-his-box-backend",
+  "version": "0.0.1",
+  "description": "The WebSocket driven backend for A Boy and His Box.",
+  "main": "server.js",
+  "scripts": {
+    "start": "NODE_ENV=local ./node_modules/.bin/babel-node server.js | ./node_modules/.bin/bunyan -o short"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-cli": "^6.4.5",
+    "babel-core": "^6.4.5",
+    "babel-preset-es2015": "^6.3.13",
+    "bluebird": "^3.1.1",
+    "bunyan": "^1.5.1",
+    "co": "^4.6.0",
+    "rethinkdb": "^2.2.1",
+    "ws": "^1.0.1"
+  },
+  "devDependencies": {
+    "jsdoc": "^3.4.0",
+    "mocha": "^2.3.4"
+  }
+}
