@@ -4,11 +4,13 @@ import co from 'co';
 
 let connection = null;
 r.connect({
-	host: 'localhost',
-	port: 28015,
+	host: 'db',
 	db: 'aboyandhisbox',
 }).then(function con(conn) {
+	console.log('Connection established.');
 	connection = conn;
+}).catch(function errorCaught(err) {
+	console.log(err);
 });
 
 export default r;

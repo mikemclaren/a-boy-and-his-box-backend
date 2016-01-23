@@ -1,0 +1,24 @@
+db:
+  image: rethinkdb
+  volumes_from:
+    - dbData
+  ports:
+      - "8080:8080"
+      - "28015:28015"
+      - "29015:29015"
+
+api:
+  privileged: true
+  build: ./app
+  volumes:
+    - ./app:/src
+  links:
+    - db
+  ports:
+    - "3000:3000"
+
+dbData:
+  image: busybox
+  volumes:
+    - /data
+  command: echo Data Volume for db
