@@ -6,18 +6,21 @@ import validateObject from '../helpers/validateObject';
 import isUsernameUnique from './isUsernameUnique';
 import createUser from './createUser';
 
-function intialize(data, ws) {
+const logger = bunyan.createLogger({ name: 'a-boy-and-his-box' });
+
+const log = logger.child({ type: 'function', function: 'initializeGame' });
+
+export default function initializeGame(ws, data) {
 	// Data should be a JSON object with a few specific properties, so we just
 	// validate this.
 	try {
-		data = JSON.parse(data);
 		validateObject(data, {
 			username: /[\w\d]{5,32}/,
 			shipType: /cargo|speeder|destroyer/
 		});
 	} catch(ex) {
-		bunyan.info(
-			{ error: ex },
+		log.info(
+			{ error: ex.stack },
 			'Validating initialize object failed.'
 		);
 
@@ -39,11 +42,5 @@ function intialize(data, ws) {
 		// Since our username is unique, and all the properties align, we need to
 		// create the user.
 		let user = yield createUser(data.username, data.shipType);
-	});
-}
-
-export default function initializeGame(ws) {
-	ws.on('initialize_game', function(data) {
-		initialize(data, ws);
 	});
 }
