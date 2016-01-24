@@ -1,5 +1,4 @@
 import bunyan from 'bunyan';
-import co from 'co';
 
 import validateObject from '../helpers/validateObject';
 
@@ -10,7 +9,7 @@ const logger = bunyan.createLogger({ name: 'a-boy-and-his-box' });
 
 const log = logger.child({ type: 'function', function: 'initializeGame' });
 
-export default function initializeGame(ws, data) {
+export default async function initializeGame(ws, data) {
 	// Data should be a JSON object with a few specific properties, so we just
 	// validate this.
 	try {
@@ -29,22 +28,20 @@ export default function initializeGame(ws, data) {
 	}
 
 	// We need to ensure the username is unique.
-	co(function* initializeGameCoRoutine() {
-		const isUnique = yield isUsernameUnique(data.username);
+	const isUnique = await isUsernameUnique(data.username);
 
-		if(!isUnique) {
-			return ws.send(JSON.stringify({
-				error: 'Username is not unique. Why not try another?'
-			}));
-		}
-
-		// Since our username is unique, and all the properties align, we need to
-		// create the user.
-		let user = yield createUser(data.username, data.shipType);
-
-		ws.send(JSON.stringify({
-			success: true,
-			message: 'User created.'
+	if(!isUnique) {
+		return ws.send(JSON.stringify({
+			error: 'Username is not unique. Why not try another?'
 		}));
-	});
+	}
+
+	// Since our username is unique, and all the properties align, we need to
+	// create the user.
+	let user = await createUser(data.username, data.shipType);
+
+	ws.send(JSON.stringify({
+		success: true,
+		message: 'User created.'
+	}));
 }
