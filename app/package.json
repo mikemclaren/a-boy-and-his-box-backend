@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "NODE_ENV=local ./node_modules/.bin/supervisor -- -r 'babel-core/register' server.js | ./node_modules/.bin/bunyan -o short",
-    "docker": "NODE_ENV=local ./node_modules/.bin/supervisor -i node_modules,Dockerfile -- -r 'babel-core/register' server.js | ./node_modules/.bin/bunyan -o short"
+    "docker": "NODE_ENV=local ./node_modules/.bin/supervisor -i node_modules,Dockerfile -- -r 'babel-core/register' server.js | ./node_modules/.bin/bunyan -o short",
+    "test": "./node_modules/.bin/_mocha --compilers js:babel-register"
   },
   "author": "",
   "license": "ISC",
