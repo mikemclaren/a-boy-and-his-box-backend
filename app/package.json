@@ -6,7 +6,8 @@
   "scripts": {
     "start": "NODE_ENV=local ./node_modules/.bin/supervisor -- -r 'babel-core/register' server.js | ./node_modules/.bin/bunyan -o short",
     "docker": "NODE_ENV=local ./node_modules/.bin/supervisor -i node_modules,Dockerfile -- -r 'babel-core/register' server.js | ./node_modules/.bin/bunyan -o short",
-    "test": "./node_modules/.bin/_mocha --compilers js:babel-register"
+    "test": "./node_modules/.bin/_mocha --compilers js:babel-register",
+    "coverage": "./node_modules/.bin/babel-node node_modules/isparta/bin/isparta cover --report text --report html node_modules/mocha/bin/_mocha -- --reporter dot"
   },
   "author": "",
   "license": "ISC",
@@ -25,6 +26,8 @@
     "ws": "^1.0.1"
   },
   "devDependencies": {
+    "babel-istanbul": "^0.6.0",
+    "isparta": "^4.0.0",
     "jsdoc": "^3.4.0",
     "mocha": "^2.3.4"
   }

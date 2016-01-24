@@ -3,7 +3,8 @@ export default {
 		name: 'Rocket Cannon',
 		id: 'rocketCannon',
 		type: 'ballistic',
-		strength: 15
+		strength: 15,
+		weight: 10
 	},
 	laserBlaster: {
 		name: 'Laser Blaster',
