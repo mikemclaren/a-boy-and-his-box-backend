@@ -2,13 +2,20 @@ import { r, runInsertQuery } from '../helpers/rethinkdb';
 
 import initializeShipData from './initializeShipData';
 
-export default function createUser(username, shipType) {
-	let shipData = initializeShipData(shipType);
+import engines from '../mappedObjects/engines';
+import hulls from '../mappedObjects/hulls';
+import weapons from '../mappedObjects/weapons';
 
-	runInsertQuery(
+export default function createUser(username) {
+	let shipData = initializeShipData();
+
+	return runInsertQuery(
 		r.table('users').insert({
 			username,
-			ship: shipData
+			ship: shipData,
+			ownedHulls: [ hulls.cardboard ],
+			ownedWeapons: [ weapons.laserBlaster ],
+			ownedEngines: [ engines.firecracker ]
 		})
 	);
 }

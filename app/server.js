@@ -1,6 +1,8 @@
 import { Server } from 'ws';
 import initializeGame from './functions/initializeGame';
 
+require('babel-polyfill');
+
 const wss = new Server({ port: 3000 });
 
 const websocketRoutes = {
@@ -18,6 +20,7 @@ wss.on('connection', function connection(ws) {
 				throw new Error();
 			}
 		} catch(ex) {
+			console.log(ex.stack);
 			ws.send(JSON.stringify({ error: 'Improper websocket sent.' }));
 		}
 	});

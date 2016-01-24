@@ -13,8 +13,7 @@ r.connect({
 	console.log(err);
 });
 
-export default r;
-export { connection };
+export { r, connection };
 
 export function runFetchQuery(query) {
 	return co(function* runQueryCoroutine() {
@@ -22,7 +21,7 @@ export function runFetchQuery(query) {
 
 		if(typeof data.toArray === 'function') {
 			return yield new Promise(function runQueryPromise(resolve, reject) {
-				promise.toArray(function arrayCallback(err, result) {
+				data.toArray(function arrayCallback(err, result) {
 					if(err) reject(err);
 
 					resolve(result);
@@ -30,7 +29,7 @@ export function runFetchQuery(query) {
 			});
 		}
 
-		return promise;
+		return data;
 	}, function errorCatch(err) {
 		throw err;
 	});

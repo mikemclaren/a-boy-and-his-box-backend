@@ -15,8 +15,7 @@ export default function initializeGame(ws, data) {
 	// validate this.
 	try {
 		validateObject(data, {
-			username: /[\w\d]{5,32}/,
-			shipType: /cargo|speeder|destroyer/
+			username: /[\w\d]{5,32}/
 		});
 	} catch(ex) {
 		log.info(
@@ -30,7 +29,7 @@ export default function initializeGame(ws, data) {
 	}
 
 	// We need to ensure the username is unique.
-	co(function* () {
+	co(function* initializeGameCoRoutine() {
 		const isUnique = yield isUsernameUnique(data.username);
 
 		if(!isUnique) {
@@ -42,5 +41,10 @@ export default function initializeGame(ws, data) {
 		// Since our username is unique, and all the properties align, we need to
 		// create the user.
 		let user = yield createUser(data.username, data.shipType);
+
+		ws.send(JSON.stringify({
+			success: true,
+			message: 'User created.'
+		}));
 	});
 }
